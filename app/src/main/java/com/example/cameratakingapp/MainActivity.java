@@ -32,12 +32,12 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _image = (ImageView) findViewById(R.id.image);
+        _image = (ImageView) findViewById(R.id.image1);
         _field =    (TextView) findViewById(R.id.field);
         _button = ( Button ) findViewById( R.id.button );
-        _button.setOnClickListener(new ButtonClickHandler);
+        _button.setOnClickListener(new ButtonClickHandler());
 
-        _path = Environment.getExternalStorageDirectory() + "/images/make_machine_example.jpg"
+        _path = Environment.DIRECTORY_DCIM + "/make_machine_example.jpg";
 
     }
 
@@ -87,7 +87,18 @@ public class MainActivity extends ActionBarActivity {
         _field.setVisibility( View.GONE);
 
     }
-
+    @Override
+    protected void onSaveInstanceState( Bundle outState ) {
+        outState.putBoolean( PHOTO_TAKEN, _taken );
+    }
+    @Override
+    protected void onRestoreInstanceState( Bundle savedInstanceState)
+    {
+        Log.i( "MakeMachine", "onRestoreInstanceState()");
+        if( savedInstanceState.getBoolean( PHOTO_TAKEN ) ) {
+            onPhotoTaken();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
